@@ -1,0 +1,19 @@
+# Core scientific stack
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+
+# Machine learning
+scikit-learn>=1.3
+torch>=2.0            # CPU build is sufficient; install from https://pytorch.org if needed
+
+# Graph utilities (used for topology helpers / visualisation only – the GNN
+# layers themselves are implemented from scratch, so PyTorch-Geometric is NOT required)
+networkx>=3.0
+
+# Visualisation
+matplotlib>=3.7
+seaborn>=0.12
+
+# Notebook (optional, only needed to run notebooks/walkthrough.ipynb)
+# jupyter>=1.0
