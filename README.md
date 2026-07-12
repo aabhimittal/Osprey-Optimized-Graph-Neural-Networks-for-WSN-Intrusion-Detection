@@ -1,0 +1,1 @@
+# Osprey-Optimized-Graph-Neural-Networks-for-WSN-Intrusion-Detection
