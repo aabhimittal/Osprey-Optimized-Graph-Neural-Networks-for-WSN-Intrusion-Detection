@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+venv/
+
+# Generated data (kept out of git; regenerate with `python main.py --generate`)
+data/*.csv
+!data/.gitkeep
+
+# Large model checkpoints (small demo checkpoint in results/ is tracked)
+*.pt
+!results/best_model.pt
+
+# run log (regenerated each run)
+results/run_log.txt
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/

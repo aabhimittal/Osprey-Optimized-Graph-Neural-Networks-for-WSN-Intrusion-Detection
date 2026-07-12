@@ -1,0 +1,42 @@
+{
+  "best_hyperparameters": {
+    "hidden_dim": 72,
+    "num_layers": 2,
+    "dropout": 0.05827621298363958,
+    "lr": 0.01,
+    "weight_decay": 0.001,
+    "gnn_type": "sage"
+  },
+  "results": {
+    "RandomForest": {
+      "accuracy": 0.9791666666666666,
+      "macro_f1": 0.9615631732480668,
+      "macro_precision": 0.9693565463222326,
+      "macro_recall": 0.9543342661850032,
+      "weighted_f1": 0.979038246634608
+    },
+    "MLP (no graph)": {
+      "accuracy": 0.9770833333333333,
+      "macro_f1": 0.9572384583803298,
+      "macro_precision": 0.9632626220167204,
+      "macro_recall": 0.9517346637305912,
+      "weighted_f1": 0.9769496293687909
+    },
+    "GNN (untuned)": {
+      "accuracy": 0.4354166666666667,
+      "macro_f1": 0.42782411219604477,
+      "macro_precision": 0.4276242459700116,
+      "macro_recall": 0.6320271656166481,
+      "weighted_f1": 0.4492115053063466
+    },
+    "GNN (Osprey-tuned)": {
+      "accuracy": 0.9739583333333334,
+      "macro_f1": 0.9537417857100282,
+      "macro_precision": 0.9549777784451485,
+      "macro_recall": 0.9528305067865069,
+      "weighted_f1": 0.973942037477494
+    }
+  },
+  "tuned_val_macro_f1": 0.9571898934944665,
+  "osprey_evaluations": 102
+}
