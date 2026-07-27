@@ -186,3 +186,12 @@ convergence curve and a model-comparison bar chart are written to `results/`.
 Every stage is seeded (`config.SEED = 42`). `python main.py --all` regenerates the
 data, reruns the search and rewrites every artefact deterministically. Use
 `--quick` for a ~1-2 minute smoke run with tiny budgets.
+
+---
+
+## 8. Beyond the core pipeline
+
+Four further research features — resource-aware multi-objective search,
+explainability (saliency + neighbour occlusion), cross-round trust scoring and
+adversarial robustness evaluation — are documented separately in
+[`novel_features.md`](novel_features.md).

@@ -1,0 +1,291 @@
+{
+  "top_features_per_class": {
+    "Normal": [
+      "Forward_Ratio",
+      "Data_Sent_To_BS",
+      "JOIN_S"
+    ],
+    "Blackhole": [
+      "Forward_Ratio",
+      "Data_Sent_To_BS",
+      "Consumed_Energy"
+    ],
+    "Grayhole": [
+      "Forward_Ratio",
+      "Data_Sent_To_BS",
+      "Is_CH"
+    ],
+    "Flooding": [
+      "Forward_Ratio",
+      "Data_Sent_To_BS",
+      "Send_Code"
+    ],
+    "Scheduling": [
+      "Forward_Ratio",
+      "Send_Code",
+      "JOIN_S"
+    ]
+  },
+  "neighbour_occlusion": {
+    "560": {
+      "predicted": "Flooding",
+      "true": "Flooding",
+      "top_neighbours": [
+        {
+          "neighbour": 599,
+          "logit_drop": 0.03297281265258789
+        },
+        {
+          "neighbour": 633,
+          "logit_drop": 0.02804422378540039
+        },
+        {
+          "neighbour": 628,
+          "logit_drop": 0.024001121520996094
+        },
+        {
+          "neighbour": 632,
+          "logit_drop": 0.023404598236083984
+        },
+        {
+          "neighbour": 597,
+          "logit_drop": 0.02124500274658203
+        }
+      ]
+    },
+    "4001": {
+      "predicted": "Scheduling",
+      "true": "Scheduling",
+      "top_neighbours": [
+        {
+          "neighbour": 4028,
+          "logit_drop": 0.032113075256347656
+        },
+        {
+          "neighbour": 4029,
+          "logit_drop": 0.029245376586914062
+        },
+        {
+          "neighbour": 4044,
+          "logit_drop": 0.012578964233398438
+        },
+        {
+          "neighbour": 4020,
+          "logit_drop": 0.010599136352539062
+        },
+        {
+          "neighbour": 4034,
+          "logit_drop": -0.005345344543457031
+        }
+      ]
+    },
+    "565": {
+      "predicted": "Flooding",
+      "true": "Flooding",
+      "top_neighbours": [
+        {
+          "neighbour": 603,
+          "logit_drop": 0.01915740966796875
+        },
+        {
+          "neighbour": 621,
+          "logit_drop": 0.01674365997314453
+        },
+        {
+          "neighbour": 638,
+          "logit_drop": 0.006265163421630859
+        },
+        {
+          "neighbour": 622,
+          "logit_drop": 0.0025033950805664062
+        },
+        {
+          "neighbour": 625,
+          "logit_drop": 0.0013227462768554688
+        }
+      ]
+    },
+    "3180": {
+      "predicted": "Flooding",
+      "true": "Flooding",
+      "top_neighbours": [
+        {
+          "neighbour": 3194,
+          "logit_drop": 0.06499338150024414
+        },
+        {
+          "neighbour": 3128,
+          "logit_drop": 0.007666110992431641
+        },
+        {
+          "neighbour": 3182,
+          "logit_drop": -0.0009660720825195312
+        },
+        {
+          "neighbour": 3148,
+          "logit_drop": -0.0034470558166503906
+        },
+        {
+          "neighbour": 3163,
+          "logit_drop": -0.01059103012084961
+        }
+      ]
+    },
+    "2167": {
+      "predicted": "Scheduling",
+      "true": "Scheduling",
+      "top_neighbours": [
+        {
+          "neighbour": 2178,
+          "logit_drop": 0.056122779846191406
+        },
+        {
+          "neighbour": 2238,
+          "logit_drop": 0.0325927734375
+        },
+        {
+          "neighbour": 2184,
+          "logit_drop": 0.023996353149414062
+        },
+        {
+          "neighbour": 2171,
+          "logit_drop": 0.017373085021972656
+        },
+        {
+          "neighbour": 2174,
+          "logit_drop": -0.01944732666015625
+        }
+      ]
+    },
+    "2166": {
+      "predicted": "Grayhole",
+      "true": "Grayhole",
+      "top_neighbours": [
+        {
+          "neighbour": 2236,
+          "logit_drop": 0.2337508201599121
+        },
+        {
+          "neighbour": 2233,
+          "logit_drop": 0.19257164001464844
+        },
+        {
+          "neighbour": 2228,
+          "logit_drop": 0.008131980895996094
+        },
+        {
+          "neighbour": 2173,
+          "logit_drop": -0.003409862518310547
+        },
+        {
+          "neighbour": 2188,
+          "logit_drop": -0.0062541961669921875
+        }
+      ]
+    },
+    "3547": {
+      "predicted": "Scheduling",
+      "true": "Scheduling",
+      "top_neighbours": [
+        {
+          "neighbour": 3586,
+          "logit_drop": 0.0774688720703125
+        },
+        {
+          "neighbour": 3543,
+          "logit_drop": 0.04823112487792969
+        },
+        {
+          "neighbour": 3538,
+          "logit_drop": 0.0009412765502929688
+        },
+        {
+          "neighbour": 3541,
+          "logit_drop": -0.0027112960815429688
+        },
+        {
+          "neighbour": 3572,
+          "logit_drop": -0.008378028869628906
+        }
+      ]
+    },
+    "567": {
+      "predicted": "Scheduling",
+      "true": "Scheduling",
+      "top_neighbours": [
+        {
+          "neighbour": 583,
+          "logit_drop": 0.04610157012939453
+        },
+        {
+          "neighbour": 602,
+          "logit_drop": 0.04529762268066406
+        },
+        {
+          "neighbour": 584,
+          "logit_drop": 0.02907276153564453
+        },
+        {
+          "neighbour": 585,
+          "logit_drop": 0.028232574462890625
+        },
+        {
+          "neighbour": 627,
+          "logit_drop": 0.021857261657714844
+        }
+      ]
+    },
+    "1390": {
+      "predicted": "Grayhole",
+      "true": "Grayhole",
+      "top_neighbours": [
+        {
+          "neighbour": 1395,
+          "logit_drop": 0.19635438919067383
+        },
+        {
+          "neighbour": 1400,
+          "logit_drop": 0.05440711975097656
+        },
+        {
+          "neighbour": 1360,
+          "logit_drop": 0.044022560119628906
+        },
+        {
+          "neighbour": 1414,
+          "logit_drop": 0.004558086395263672
+        },
+        {
+          "neighbour": 1393,
+          "logit_drop": -0.024464130401611328
+        }
+      ]
+    },
+    "4409": {
+      "predicted": "Scheduling",
+      "true": "Scheduling",
+      "top_neighbours": [
+        {
+          "neighbour": 4425,
+          "logit_drop": 0.0369873046875
+        },
+        {
+          "neighbour": 4423,
+          "logit_drop": 0.02623462677001953
+        },
+        {
+          "neighbour": 4418,
+          "logit_drop": 0.022617340087890625
+        },
+        {
+          "neighbour": 4412,
+          "logit_drop": 0.011890411376953125
+        },
+        {
+          "neighbour": 4438,
+          "logit_drop": 0.008667945861816406
+        }
+      ]
+    }
+  }
+}
