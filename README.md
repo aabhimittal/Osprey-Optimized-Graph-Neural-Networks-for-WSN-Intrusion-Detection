@@ -116,6 +116,10 @@ python main.py --all --quick        # fast demo (~1-2 min)
 python main.py --generate           # build the dataset
 python main.py --optimize           # run the Osprey search  (writes results/best_config.json)
 python main.py --evaluate           # final training + baselines (writes results/metrics.json)
+python main.py --explain            # saliency + neighbour-occlusion explanations
+python main.py --trust              # cross-round trust/reputation scoring
+python main.py --robustness         # noise/evasion robustness sweep (GNN vs RF)
+python main.py --optimize --evaluate --multi-objective   # resource-aware search
 
 # 4. interactive tour
 jupyter notebook notebooks/walkthrough.ipynb
@@ -167,6 +171,24 @@ _Full run on the synthetic dataset (seed 42). Osprey selected: **SAGE**, 2 layer
 
 ---
 
+## 🧪 Beyond the core: deployable-IDS features
+
+Four research extensions answer the questions a *deployable* WSN IDS must face
+(full write-up: [`docs/novel_features.md`](docs/novel_features.md)):
+
+| Feature | Question it answers | How |
+|---|---|---|
+| **Resource-aware multi-objective Osprey** (`--multi-objective`) | *Is the most accurate model deployable on a sensor node?* | Fitness becomes `macro-F1 − λ·(params/budget)` — a lightweight hardware-aware NAS that hunts the accuracy/size Pareto front. |
+| **Explainability** (`--explain`) | *Why was this node flagged?* | Gradient saliency per attack class (audits that the model learned the real attack physics) + **neighbour occlusion** (which neighbours' traffic exposed the attacker). |
+| **Trust / reputation scoring** (`--trust`) | *Which physical nodes are compromised?* | An EMA over per-round posteriors builds a per-node trust index; persistent attackers (now planted by the generator) are driven toward zero trust and quarantined, with measured detection latency. |
+| **Adversarial robustness** (`--robustness`) | *Does detection survive evasion?* | Macro-F1 vs perturbation strength under sensor noise and attacker self-evasion, GNN vs Random Forest side by side. |
+
+| Explainability | Trust over time | Robustness |
+|---|---|---|
+| ![saliency](results/explainability.png) | ![trust](results/trust_scores.png) | ![robustness](results/robustness.png) |
+
+---
+
 ## 📁 Repository structure
 
 ```
@@ -180,10 +202,13 @@ src/
   models/gnn.py             # configurable GNNClassifier
   osprey/optimizer.py       # Osprey Optimization Algorithm
   train.py                  # train/eval one GNN config (the fitness function)
-  optimize.py               # OOA ⇄ GNN glue
+  optimize.py               # OOA ⇄ GNN glue (+ multi-objective fitness)
   evaluate.py               # final model + baselines + plots
+  explain.py                # gradient saliency + neighbour occlusion
+  trust.py                  # cross-round trust/reputation scoring
+  robustness.py             # noise/evasion robustness sweeps
   utils.py                  # seeding, metrics, plotting
-docs/                       # methodology.md · osprey_algorithm.md · architecture.md
+docs/                       # methodology · osprey_algorithm · architecture · novel_features
 notebooks/walkthrough.ipynb # interactive end-to-end demo
 tests/                      # pytest suite (OOA, data, graph, models)
 results/                    # generated metrics + figures + checkpoint

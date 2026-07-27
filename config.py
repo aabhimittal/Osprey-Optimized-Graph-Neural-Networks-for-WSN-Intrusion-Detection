@@ -61,6 +61,11 @@ class DataConfig:
     n_nodes: int = 80            # sensor nodes per round
     ch_fraction: float = 0.05    # ~5 % of nodes become Cluster Heads (LEACH default p)
     attack_fraction: float = 0.30  # fraction of node-rounds that are malicious
+    # Fraction of the malicious budget held by *persistent* attackers: compromised
+    # nodes that stay malicious (same attack type) across every round.  The rest
+    # of the budget is filled by transient, per-round attackers.  Persistence is
+    # what makes cross-round trust/reputation scoring (src/trust.py) meaningful.
+    persistent_attacker_fraction: float = 0.6
     field_size: float = 200.0    # deployment area is field_size x field_size metres
     knn_k: int = 6               # k for the spatial k-NN edges added on top of the tree
     label_noise: float = 0.03    # fraction of labels randomly flipped (realism)
@@ -130,7 +135,18 @@ class OspreyConfig:
     n_iterations: int = 8    # generations
     # Fitness = validation macro-F1 of a GNN trained with the decoded config.
     fitness_epochs: int = 25  # short training budget used *inside* the search
+    # --- resource-aware multi-objective search ------------------------------
+    # WSN hardware is battery/CPU constrained, so the search can trade accuracy
+    # against model cost:  fitness = macro_F1 - efficiency_weight * cost, where
+    # cost = n_parameters / PARAM_BUDGET (so the penalty is ~[0, 1]-scaled).
+    # 0.0 (default) = pure single-objective accuracy search.
+    efficiency_weight: float = 0.0
     verbose: bool = True
+
+
+# Normaliser for the multi-objective cost term: roughly the parameter count of
+# the largest model the search space can express (4-layer GAT, hidden 128).
+PARAM_BUDGET: int = 120_000
 
 
 # --------------------------------------------------------------------------- #

@@ -38,9 +38,16 @@ from config import CLASS_NAMES, DataConfig, FEATURE_NAMES
 _NORMAL, _BLACKHOLE, _GRAYHOLE, _FLOODING, _SCHEDULING = range(5)
 
 
-def _round_frame(round_id: int, cfg: DataConfig, rng: np.random.Generator) -> pd.DataFrame:
-    """Generate one LEACH round: node positions, cluster assignment, features."""
+def _round_frame(round_id: int, cfg: DataConfig, rng: np.random.Generator,
+                 persistent: dict | None = None) -> pd.DataFrame:
+    """Generate one LEACH round: node positions, cluster assignment, features.
+
+    ``persistent`` maps node_id -> attack type for compromised nodes that stay
+    malicious every round; the remaining malicious budget is filled with
+    transient per-round attackers.
+    """
     n = cfg.n_nodes
+    persistent = persistent or {}
 
     # --- 1. node deployment (static positions across the simulation) --------
     # positions are regenerated per round with the same seed stream so the
@@ -76,11 +83,16 @@ def _round_frame(round_id: int, cfg: DataConfig, rng: np.random.Generator) -> pd
 
     # --- 3. assign attack labels -------------------------------------------
     labels = np.full(n, _NORMAL, dtype=int)
+    # persistent (compromised) nodes keep their attack type every round
+    for nid, atk in persistent.items():
+        labels[nid] = atk
+    # fill the rest of the malicious budget with transient per-round attackers
     n_mal = int(round(cfg.attack_fraction * n))
-    mal_idx = rng.choice(n, size=n_mal, replace=False)
-    # spread malicious nodes across the four attack types
-    attack_choices = rng.integers(_BLACKHOLE, _SCHEDULING + 1, size=n_mal)
-    labels[mal_idx] = attack_choices
+    n_transient = max(0, n_mal - len(persistent))
+    candidates = np.setdiff1d(np.arange(n), np.fromiter(persistent, dtype=int, count=len(persistent)))
+    if n_transient > 0 and candidates.size > 0:
+        mal_idx = rng.choice(candidates, size=min(n_transient, candidates.size), replace=False)
+        labels[mal_idx] = rng.integers(_BLACKHOLE, _SCHEDULING + 1, size=len(mal_idx))
 
     # --- 4. draw behavioural counters, conditioned on label -----------------
     # baseline (normal) behaviour first, then overwrite per-attack.
@@ -182,7 +194,17 @@ def _round_frame(round_id: int, cfg: DataConfig, rng: np.random.Generator) -> pd
 def generate(cfg: DataConfig, seed: int) -> pd.DataFrame:
     """Generate a full synthetic WSN-DS dataset (``cfg.n_rounds`` graphs)."""
     rng = np.random.default_rng(seed)
-    frames = [_round_frame(r, cfg, rng) for r in range(cfg.n_rounds)]
+
+    # choose the persistent (compromised) nodes once for the whole simulation
+    n_mal = int(round(cfg.attack_fraction * cfg.n_nodes))
+    n_persistent = int(round(getattr(cfg, "persistent_attacker_fraction", 0.0) * n_mal))
+    persistent: dict = {}
+    if n_persistent > 0:
+        ids = rng.choice(cfg.n_nodes, size=n_persistent, replace=False)
+        types = rng.integers(_BLACKHOLE, _SCHEDULING + 1, size=n_persistent)
+        persistent = {int(i): int(t) for i, t in zip(ids, types)}
+
+    frames = [_round_frame(r, cfg, rng, persistent) for r in range(cfg.n_rounds)]
     df = pd.concat(frames, ignore_index=True)
 
     # inject a little label noise for realism (mislabelled ground truth happens)
