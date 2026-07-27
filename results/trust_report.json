@@ -1,0 +1,19 @@
+{
+  "n_compromised": 14,
+  "n_flagged": 21,
+  "tp": 14,
+  "fp": 7,
+  "fn": 0,
+  "tn": 59,
+  "precision": 0.6666666666666666,
+  "recall": 1.0,
+  "f1": 0.8,
+  "mean_detection_latency_rounds": 2.0,
+  "threshold": 0.5,
+  "persistent_cutoff": 0.8,
+  "single_round_reference": {
+    "precision": 0.5833333333333334,
+    "recall": 1.0,
+    "f1": 0.7368421052631579
+  }
+}

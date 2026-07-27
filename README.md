@@ -138,14 +138,14 @@ pipeline is unchanged — no code edits needed.
 ## 📊 Results
 
 <!-- RESULTS_TABLE_START -->
-_Full run on the synthetic dataset (seed 42). Osprey selected: **SAGE**, 2 layers, hidden=72, dropout=0.06, lr=1.0e-02, wd=1.0e-03 (validation macro-F1 0.957, 102 fitness evaluations). Re-running `python main.py --all` regenerates `results/metrics.json` and the figures._
+_Full run on the synthetic dataset (seed 42). Osprey selected: **SAGE**, 2 layers, hidden=96, dropout=0.13, lr=5.9e-03, wd=7.1e-05 (validation macro-F1 0.956, 102 fitness evaluations). Re-running `python main.py --all` regenerates `results/metrics.json` and the figures._
 
 | Model | Accuracy | Macro-F1 | Macro-Recall |
 |---|---|---|---|
-| Random Forest (tabular) | 0.979 | 0.962 | 0.954 |
-| MLP (no graph) | 0.977 | 0.957 | 0.952 |
-| GNN (untuned default) | 0.435 | 0.428 | 0.632 |
-| **GNN (Osprey-tuned)** | 0.974 | 0.954 | 0.953 |
+| Random Forest (tabular) | 0.975 | 0.961 | 0.942 |
+| MLP (no graph) | 0.975 | 0.961 | 0.942 |
+| GNN (untuned default) | 0.491 | 0.455 | 0.640 |
+| **GNN (Osprey-tuned)** | 0.973 | 0.957 | 0.941 |
 <!-- RESULTS_TABLE_END -->
 
 **Figures written to `results/`:**
@@ -156,7 +156,7 @@ _Full run on the synthetic dataset (seed 42). Osprey selected: **SAGE**, 2 layer
 
 > **Interpreting the comparison.**
 > - **Osprey adds a lot.** The *untuned default* GNN — a textbook 2-layer **GCN** with
->   dropout 0.5 — collapses to a **0.43 macro-F1** (below the majority-class baseline): the
+>   dropout 0.5 — collapses to a **0.46 macro-F1** (below the majority-class baseline): the
 >   symmetric GCN aggregation *over-smooths* on this dense cluster graph, washing out each
 >   node's own discriminative counters. The Osprey search discovers that **GraphSAGE** (which
 >   concatenates a node's own features with its neighbourhood mean) plus a **low dropout** avoids
@@ -182,6 +182,17 @@ Four research extensions answer the questions a *deployable* WSN IDS must face
 | **Explainability** (`--explain`) | *Why was this node flagged?* | Gradient saliency per attack class (audits that the model learned the real attack physics) + **neighbour occlusion** (which neighbours' traffic exposed the attacker). |
 | **Trust / reputation scoring** (`--trust`) | *Which physical nodes are compromised?* | An EMA over per-round posteriors builds a per-node trust index; persistent attackers (now planted by the generator) are driven toward zero trust and quarantined, with measured detection latency. |
 | **Adversarial robustness** (`--robustness`) | *Does detection survive evasion?* | Macro-F1 vs perturbation strength under sensor noise and attacker self-evasion, GNN vs Random Forest side by side. |
+
+**Measured on the full run (seed 42):**
+
+- *Explainability audit passed* — Blackhole/Grayhole predictions are driven by `Forward_Ratio` &
+  `Data_Sent_To_BS` (the packet-drop signature), Flooding by `Send_Code`, i.e. the model learned
+  the real attack physics, not shortcuts.
+- *Trust scoring* — **100 % recall** on the planted persistent attackers with a mean detection
+  latency of **2 rounds**; trust-based flagging F1 **0.80** vs **0.74** for a single-round
+  detector on the same nodes.
+- *Robustness* — under attacker self-evasion at ε = 1.0 the GNN keeps **0.86** macro-F1 vs the
+  Random Forest's **0.78**: neighbourhood evidence makes self-evasion structurally harder.
 
 | Explainability | Trust over time | Robustness |
 |---|---|---|
